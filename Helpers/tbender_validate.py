@@ -33,6 +33,11 @@ def validate_song(song:Song, message:disnake.Message, fstruct:list):
     v = validate_file_types(song.files)
     if not v == True:
         return globals.settings.lang.rejects.invalid_files.replace("$VAR", ", ".join(v))
+    # Validate song name / short name
+    if globals.settings.verification.empty_names and song.name.strip() == "":
+        return globals.settings.lang.rejects.empty_song_name
+    if globals.settings.verification.empty_names and song.tmb["shortName"].strip() == "":
+        return globals.settings.lang.rejects.empty_short_name
     return
 
 def validate_alphanum(trackref:str, foldername:str):

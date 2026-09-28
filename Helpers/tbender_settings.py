@@ -7,7 +7,7 @@ keys_general = ["debug", "bot_token", "submissions_channel", "facts_channel", "c
 keys_upload = ["youtube", "dropbox", "googledrive", "discord_uploads", "max_file_size", "tt_api_key", "hastebin_api_key"]
 keys_curation = ["curator_forum_channel", "public_forum_channel", "pack_spreadsheet_id"]
 keys_moderation = ["staff_channel_id", "enable_spam_filter", "passive_filter", "timeout_duration", "rate_limit_time", "rate_limit_channels"]
-keys_verification = ["file_structure", "unique_trackref", "song_length", "note_pitch", "note_position", "background", "json", "alphanumeric", "allowed_filenames"]
+keys_verification = ["file_structure", "unique_trackref", "song_length", "note_pitch", "note_position", "background", "json", "alphanumeric", "allowed_filenames", "empty_names"]
 keys_mysql = ["host", "user", "password", "database", "table"]
 
 home = os.path.join(os.path.dirname(os.path.realpath(__file__)), "..")
