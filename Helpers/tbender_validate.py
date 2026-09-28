@@ -10,9 +10,17 @@ def validate_song(song:Song, message:disnake.Message, fstruct:list):
     #Validate trackRef length
     if not validate_trackref_length(song.tmb["trackRef"]):
         return globals.settings.lang.rejects.trackreflen.replace("$VAR", globals.settings.verification.max_trackref_length)
+    # Validate song name / short name
+    if globals.settings.verification.empty_names and song.name.strip() == "":
+        return globals.settings.lang.rejects.empty_song_name
+    if globals.settings.verification.empty_names and song.tmb["shortName"].strip() == "":
+        return globals.settings.lang.rejects.empty_short_name
     improv = validate_improv(song.tmb)
     if not improv == True:
         return globals.settings.lang.rejects.invalid_improv.replace("$VAR", str(improv).upper())
+    #Validate spacing INT
+    if not spacing_is_integer(song.tmb):
+        return globals.settings.lang.rejects.spacing_not_int
     #Validate audio length
     if not validate_audio(fstruct[0], song.duration):
         return globals.settings.lang.rejects.song_length
@@ -22,9 +30,6 @@ def validate_song(song:Song, message:disnake.Message, fstruct:list):
         return globals.settings.lang.rejects.note_pitch.replace("$VAR", ", ".join(pitchnotes))
     if not timenotes == [] and globals.settings.verification.note_position:
         return globals.settings.lang.rejects.note_position.replace("$VAR", ", ".join(timenotes))
-    #Validate spacing INT
-    if not spacing_is_integer(song.tmb):
-        return globals.settings.lang.rejects.spacing_not_int
     #Validate no WIP keys
     foundkeys = validate_wip_keys(song.tmb)
     if len(foundkeys) > 0:
@@ -33,11 +38,6 @@ def validate_song(song:Song, message:disnake.Message, fstruct:list):
     v = validate_file_types(song.files)
     if not v == True:
         return globals.settings.lang.rejects.invalid_files.replace("$VAR", ", ".join(v))
-    # Validate song name / short name
-    if globals.settings.verification.empty_names and song.name.strip() == "":
-        return globals.settings.lang.rejects.empty_song_name
-    if globals.settings.verification.empty_names and song.tmb["shortName"].strip() == "":
-        return globals.settings.lang.rejects.empty_short_name
     return
 
 def validate_alphanum(trackref:str, foldername:str):
